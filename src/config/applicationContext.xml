@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- beans 설정하는 곳 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- properties file 설정 -->
+	<context:property-placeholder location="classpath:config/values.properties" />
+	
+	<!-- Component Auto Scanning 설정 -->
+	<context:component-scan base-package="myspring.di.annotation" />
+	
+	<!-- StringPrinter 클래스를 Bean으로 설정 -->
+	<bean id="sPrinter" class="myspring.di.xml.StringPrinter" />
+	
+	<!-- ConsolePrinter 클래스를 Bean으로 설정 -->
+	<bean id="cPrinter" class="myspring.di.xml.ConsolePrinter" />
+	
+	<!-- Hello 클래스를 Bean으로 설정 -->
+	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
+		<!-- setter injection : default constructor를 사용해서 객체 생성 -->
+		<property name="name" value="스프링" />
+		<property name="printer" ref="sPrinter" />
+	</bean>
+	
+	<!-- 아이디가 다르면 같은 클래스의 Bean 여러개 등록해도 괜찮음 -->
+	<bean id="helloC" class="myspring.di.xml.Hello">
+		<!-- constructor injection (하나의 constructor-arg가 생성자의 하나의 인자값)-->
+		<!-- 그래서 아래처럼 선언할 경우 인자 2개 가지는 생성자가 Hello.java에 반드시 필요 -->
+		<constructor-arg index="0" value="생성자" />
+<!-- 		<constructor-arg index="1" ref="sPrinter" /> -->
+		<constructor-arg index="1" ref="cPrinter" /> <!-- Hello.java 가 ConsolePrinter를 찾아감 -->
+		
+		<!-- List Collection 타입의 변수 주입 -->
+		<property name="names"> <!-- setNames(List<String>) -->
+			<list>
+				<value>Java</value>
+				<value>Kotlin</value>
+				<value>Scalar</value>
+				<value>Java</value>
+			</list>
+		</property>
+		
+		<!-- Map Collection 타입의 변수 주입-->
+		<property name="ages"> <!-- setAges(Map<String, Integer>) -->
+			<map>
+				<entry key="java" value="10" />
+				<entry key="js" value="20" />
+				<entry key="react" value="30" />
+			</map>
+		</property>
+	</bean>
+
+</beans>
