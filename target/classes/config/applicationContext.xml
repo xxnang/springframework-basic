@@ -11,7 +11,33 @@
 	
 	<!-- Component Auto Scanning 설정 -->
 	<context:component-scan base-package="myspring.di.annotation" />
+
+<!-- MyBatis를 위함 -->
+	<!--  DBCP 관련 DataSource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${db.driverClass}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
 	
+	<!-- SqlSessionFactoryBean 클래스를 Bean으로 등록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:config/SqlMapConfig.xml" />
+		<property name="mapperLocations" >
+			<list>
+				<value>classpath:config/*Mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- SqlSessionTemplate 클래스를 Bean으로 등록 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" >
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+<!-- 여기까지 -->
+
 	<!-- StringPrinter 클래스를 Bean으로 설정 -->
 	<bean id="sPrinter" class="myspring.di.xml.StringPrinter" />
 	
