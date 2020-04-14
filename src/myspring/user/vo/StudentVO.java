@@ -9,9 +9,9 @@ public class StudentVO {
 	private String grade;
 	private String daynight;
 
-	private DeptVO dept;
+	private DeptVO dept; // 1:1
 
-	private List<CourseStatusVO> courseStatus;
+	private List<CourseStatusVO> courseStatus; // 1:N
 
 	public StudentVO() {
 

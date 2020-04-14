@@ -6,6 +6,7 @@
 <!-- <mapper namespace="studentNS"> -->
 <mapper namespace="myspring.user.dao.mapper.StudentMapper">
 
+<!-- 컬럼명과 VO 객체의 setter method를 수동으로 매핑 해주어야 한다. -->
 	<resultMap id="studentDeptResultMap" type="Student">
 		<id property="id" column="stu_id" javaType="Integer" jdbcType="NUMERIC" />
 		<result property="name" column="stu_name" javaType="String"
@@ -45,7 +46,8 @@
 		<result property="daynight" column="stu_daynight" javaType="String"
 			jdbcType="VARCHAR" />
 	</resultMap>
-	
+
+<!-- Dept : DeptVO -->	
 	<resultMap id="deptResultMap" type="Dept">
 		<id property="deptid" column="dept_id" javaType="Integer" jdbcType="NUMERIC" />
 		<result property="deptname" column="dept_name" javaType="String"

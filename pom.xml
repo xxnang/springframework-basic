@@ -99,5 +99,12 @@
 			<version>2.3.1</version>
 		</dependency>
 
+		<!-- log4j 를 위한 라이브러리 https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.13.1</version>
+		</dependency>
+
 	</dependencies>
 </project>

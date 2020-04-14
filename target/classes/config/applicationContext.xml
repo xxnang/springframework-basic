@@ -7,58 +7,80 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- properties file 설정 -->
-	<context:property-placeholder location="classpath:config/values.properties" />
-	
-	<!-- Component Auto Scanning 설정 -->
-	<context:component-scan base-package="myspring.di.annotation" />
+	<context:property-placeholder
+		location="classpath:config/values.properties" />
+
+	<!-- Annotation 읽기 위한 설정 코드 Component Auto Scanning 설정 -->
+	<context:component-scan
+		base-package="myspring.user" />
 
 <!-- MyBatis를 위함 -->
-	<!--  DBCP 관련 DataSource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<!-- DBCP 관련 DataSource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${db.driverClass}" />
 		<property name="url" value="${db.url}" />
 		<property name="username" value="${db.username}" />
 		<property name="password" value="${db.password}" />
 	</bean>
-	
+
 	<!-- SqlSessionFactoryBean 클래스를 Bean으로 등록 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:config/SqlMapConfig.xml" />
-		<property name="mapperLocations" >
+		<property name="configLocation"
+			value="classpath:config/SqlMapConfig.xml" />
+		<property name="mapperLocations">
 			<list>
 				<value>classpath:config/*Mapper.xml</value>
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- SqlSessionTemplate 클래스를 Bean으로 등록 -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" >
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
 <!-- 여기까지 -->
 
+<!-- UserMapper 설정 -->
+	<!-- MapperScannerConfigurer 설정 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="myspring.user.dao.mapper" />
+		<property name="annotationClass"
+			value="myspring.user.dao.mapper.MyMapper" />
+		<!-- MyMapper 어노테이션(우리가 표식을 위해 만든 어노테이션)이 붙은 클래스를 스캔해라 -->
+	</bean>
+
+	<!-- Mapper 설정 -->
+<!-- 	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"> -->
+<!-- 		<property name="mapperInterface" value="myspring.user.dao.mapper.UserMapper" /> -->
+<!-- 		<property name="sqlSessionTemplate" ref="sqlSession" />  -->
+<!-- 	 </bean> -->
+<!-- 여기까지 -->
+
 	<!-- StringPrinter 클래스를 Bean으로 설정 -->
 	<bean id="sPrinter" class="myspring.di.xml.StringPrinter" />
-	
+
 	<!-- ConsolePrinter 클래스를 Bean으로 설정 -->
 	<bean id="cPrinter" class="myspring.di.xml.ConsolePrinter" />
-	
+
 	<!-- Hello 클래스를 Bean으로 설정 -->
 	<bean id="hello" class="myspring.di.xml.Hello" scope="singleton">
 		<!-- setter injection : default constructor를 사용해서 객체 생성 -->
 		<property name="name" value="스프링" />
 		<property name="printer" ref="sPrinter" />
 	</bean>
-	
+
 	<!-- 아이디가 다르면 같은 클래스의 Bean 여러개 등록해도 괜찮음 -->
 	<bean id="helloC" class="myspring.di.xml.Hello">
-		<!-- constructor injection (하나의 constructor-arg가 생성자의 하나의 인자값)-->
+		<!-- constructor injection (하나의 constructor-arg가 생성자의 하나의 인자값) -->
 		<!-- 그래서 아래처럼 선언할 경우 인자 2개 가지는 생성자가 Hello.java에 반드시 필요 -->
 		<constructor-arg index="0" value="생성자" />
-<!-- 		<constructor-arg index="1" ref="sPrinter" /> -->
+		<!-- <constructor-arg index="1" ref="sPrinter" /> -->
 		<constructor-arg index="1" ref="cPrinter" /> <!-- Hello.java 가 ConsolePrinter를 찾아감 -->
-		
+
 		<!-- List Collection 타입의 변수 주입 -->
 		<property name="names"> <!-- setNames(List<String>) -->
 			<list>
@@ -68,8 +90,8 @@
 				<value>Java</value>
 			</list>
 		</property>
-		
-		<!-- Map Collection 타입의 변수 주입-->
+
+		<!-- Map Collection 타입의 변수 주입 -->
 		<property name="ages"> <!-- setAges(Map<String, Integer>) -->
 			<map>
 				<entry key="java" value="10" />

@@ -5,11 +5,11 @@
 <!-- MaBatis 단독으로 쓸 때는 Datasource 설정을 이 파일에다가 하고, 스프링과 연동하여 같이 쓴다면 스프링 설정파일 (applicationContext.xml)에다가 설정한다. -->
 
 <configuration>
-	<!-- log4j2 설정 -->
-<!-- 	<settings> -->
-<!--          <setting name="defaultStatementTimeout" value="3"/>  -->
-<!--          <setting name="logImpl" value="LOG4J2"/> -->
-<!--     </settings> -->
+	<!-- log4j2 설정 : 쿼리문을 log에 찍어주는 것 -->
+	<settings>
+         <setting name="defaultStatementTimeout" value="3"/> 
+         <setting name="logImpl" value="LOG4J2"/>
+    </settings>
     
 <!-- 타입명이 긴 path니까 별칭을줘서 편하게 사용한다. -->
 	<typeAliases>
