@@ -120,5 +120,13 @@
 			<version>1.2</version>
 		</dependency>
 
+		<!-- Jackson (JSON) 관련 라이브러리 https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.10.3</version>
+		</dependency>
+
+
 	</dependencies>
 </project>

@@ -26,19 +26,20 @@ public class UserDaoImplMapper implements UserDao {
 
 	public void insert(UserVO user) {
 		userMapper.insertUser(user);
-		System.out.println("등록된 Record UserId=" + user.getUserId() + 
+		System.out.println("<UserDaoImplMapper> 등록된 Record UserId=" + user.getUserId() + 
 				" Name=" + user.getName());
 	}
 
 	@Override
 	public void update(UserVO user) {
 		userMapper.updateUser(user);
+		System.out.println("<UserDaoImplMapper> 업데이트된 Record with ID = " + user.getUserId()); 
 	}
 	
 	@Override
 	public void delete(String id) {
 		userMapper.deleteUser(id);
-		System.out.println("등록된 Record with ID = " + id ); 
+		System.out.println("<UserDaoImplMapper> 삭제된 Record with ID = " + id ); 
 	}
 }
 

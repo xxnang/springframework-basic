@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- controller 관련된 설정은 그야말로 WEB 쪽과 관련된 설정들이니까 굳이 하나의 파일에서 안하고 따로 파일을 만들어서 
+	관리해주기 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+
+	<!-- DispatcherServlet의 url-pattern과 DefaultServlet의 url-pattern 충돌 문제 해결해주는 
+		설정 -->
+	<mvc:default-servlet-handler />
+
+	<!-- XML, JSON Data Support -->
+	<mvc:annotation-driven />
+
+	<!-- Annotation 읽기 위한 설정 코드 Component Auto Scanning 설정 -->
+	<context:component-scan
+		base-package="myspring.user">
+		<!-- controller 관련 설정을 이 설정파일에서 읽기 위해 추가함 - @Controller 어노테이션을 선언한 컴포넌트를 
+			component-scan 하겠다는 의미 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- Controller에서 JSP 확장자명 생략하기 위해 설정 추가 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <!-- class="IRVR" 하고 ctrl+space하면 자동 완성 -->
+		<property name="prefix" value="/" /> <!-- 여기서 슬래시는 WebContent를 의미함! 그 아래 폴더 놓고 싶으면 여기서 경로 지정해줌 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>

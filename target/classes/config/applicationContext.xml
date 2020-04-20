@@ -11,8 +11,10 @@
 		location="classpath:config/values.properties" />
 
 	<!-- Annotation 읽기 위한 설정 코드 Component Auto Scanning 설정 -->
-	<context:component-scan
-		base-package="myspring.user" />
+	<context:component-scan base-package="myspring.user" >
+		<!-- controller 관련 설정을 이 설정파일에서 제외하기 위해 추가함 - @Controller 어노테이션을 선언한 컴포넌트는 component-scan을 안하겠다는 의미 -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 
 <!-- MyBatis를 위함 -->
 	<!-- DBCP 관련 DataSource 구현체인 BasicDataSource 클래스를 Bean으로 등록 -->
