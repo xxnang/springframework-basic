@@ -3,15 +3,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- properties file 설정 -->
 	<context:property-placeholder
 		location="classpath:config/values.properties" />
 
 	<!-- Annotation 읽기 위한 설정 코드 Component Auto Scanning 설정 -->
-	<context:component-scan base-package="myspring.user" >
+<!-- 	<context:component-scan base-package="myspring.user" > -->
+	<context:component-scan base-package="myspring.user,myspring.aop" >
 		<!-- controller 관련 설정을 이 설정파일에서 제외하기 위해 추가함 - @Controller 어노테이션을 선언한 컴포넌트는 component-scan을 안하겠다는 의미 -->
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
@@ -102,5 +105,20 @@
 			</map>
 		</property>
 	</bean>
+	
+	<!-- AOP 관련 설정 -->
+	<bean id="ptAdvice" class="myspring.aop.xml.PerformanceTraceAdvice" />
+	<aop:config>
+		<!-- Advice + Pointcut = Aspect(Advisor) -->
+		<aop:aspect ref="ptAdvice">
+<!-- 			<aop:around method="trace" pointcut="execution(public * myspring.user..user*())"/> -->
+			<aop:around method="trace" pointcut="execution(public * myspring.user..*(..))"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- @Aspect 사용 지원하는 설정 -->
+	<aop:aspectj-autoproxy />
+	
+
 
 </beans>

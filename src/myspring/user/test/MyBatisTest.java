@@ -105,7 +105,7 @@ public class MyBatisTest {
 	}
 	
 	// UserDaoImpl & UserService 사용 테스트 메소드
-	@Test @Ignore
+	@Test //@Ignore
 	public void service() {
 		// UserService -> UserDao -> SqlSession -> SqlSessionFactory -> DataSource
 		
